@@ -1,4 +1,5 @@
 ﻿using System;
+using HelperLibrary;
 
 namespace ConsoleApp
 {
@@ -6,7 +7,11 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string fileName = @"D:\Project C#\GitHub\SaveStoredProcedure\YML.xml";
+
+            var offers = DeserializeOffer.DeserializeFormXml(fileName);
+
+            Console.ReadLine();
         }
     }
 }
