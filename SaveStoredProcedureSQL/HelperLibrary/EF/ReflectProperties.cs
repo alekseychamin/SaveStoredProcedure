@@ -43,8 +43,6 @@ namespace HelperLibrary
         {
             if (sqlParameter.Value is null)
             {
-                sqlParameter.IsNullable = true;
-
                 if (propertyInfo.PropertyType == typeof(string))
                 {
                     sqlParameter.SqlValue = SqlString.Null;

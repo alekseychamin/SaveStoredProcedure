@@ -22,9 +22,8 @@ namespace HelperLibrary.EF
             .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             modelBuilder.Entity<OfferDb>().MapToStoredProcedures(s => s.Insert(u => u.HasName("InsertOffer", "dbo"))
-                                                                                     //.Parameter<long>(r => r.Id, "Id"))
-                                                                            .Update(u => u.HasName("UpdateOffer", "dbo"))
-                                                                            .Delete(u => u.HasName("DeleteOffer", "dbo")));
+                                                                       .Update(u => u.HasName("UpdateOffer", "dbo"))
+                                                                       .Delete(u => u.HasName("DeleteOffer", "dbo")));
         }
     }
 }

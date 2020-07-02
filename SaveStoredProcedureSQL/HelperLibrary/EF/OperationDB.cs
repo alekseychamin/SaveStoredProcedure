@@ -49,7 +49,7 @@ namespace HelperLibrary.EF
             }
         }
 
-        private void SaveEntityBySP(DBContext db, string nameProcedure, string nameParametrs, object[] parameters)
+        private int SaveEntityBySP(DBContext db, string nameProcedure, string nameParametrs, object[] parameters)
         {
             if (nameProcedure is null)
                 throw new ArgumentNullException("nameProcedure");
@@ -62,7 +62,7 @@ namespace HelperLibrary.EF
             
             var command = $"{nameProcedure} {nameParametrs}";
             
-            db.Database.ExecuteSqlCommand(command, parameters);
+            return db.Database.ExecuteSqlCommand(command, parameters);
         }
     }
 }

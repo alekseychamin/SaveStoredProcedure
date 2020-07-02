@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using HelperLibrary;
+using HelperLibrary.Config;
 using HelperLibrary.EF;
 
 namespace ConsoleApp
@@ -10,43 +11,63 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            #region CreateDB
+            try
+            {
+                #region Read config file
 
-            var operationDB = new OperationDB("Server=(localdb)\\mssqllocaldb;Database=SaveProcedureDB;Trusted_Connection=True;");
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            Console.WriteLine("Creating DB and Table...");
-            
-            operationDB.CreateSqlDb();
-            
-            Console.WriteLine("Finish to create DB and Table");
-            Console.WriteLine(new string('-', 200));
+                var configuration = new Configuration($"{path}\\config.json");
 
-            #endregion
+                var config = configuration.GetConfiguration();
 
-            #region Deserialize offers from Xml
+                var fileNameXml = config.FileName;
+                var connectionString = config.ConnectionString;
 
-            Console.WriteLine("Start to deserialize xml file...");
+                #endregion
 
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);            
-            string fileName = path + "\\YML.xml";
+                #region CreateDB
 
-            var offers = DeserializeXml.DeserializeFormXml(fileName);
+                var operationDB = new OperationDB(connectionString);
 
-            Console.WriteLine($"Finish to deserialize xml file {fileName}");
-            Console.WriteLine(new string('-', 200));
+                Console.WriteLine("Creating DB and Table...");
 
-            #endregion
+                operationDB.CreateSqlDb();
 
-            #region Save Offers to DB by Stored Procedure
+                Console.WriteLine("Finish to create DB and Table");
+                Console.WriteLine(new string('-', 200));
 
-            Console.WriteLine("Start to insert data of offers to DB by stored procedure...");
+                #endregion
 
-            operationDB.SaveOffersToDbBySP(offers);
+                #region Deserialize offers from Xml
 
-            Console.WriteLine("Finish to insert data of offers to DB by stored procedure");
-            Console.WriteLine(new string('-', 200));
+                Console.WriteLine("Start to deserialize xml file...");
 
-            #endregion
+                string fileName = $"{path}\\{fileNameXml}";
+
+                var offers = DeserializeXml.DeserializeFormXml(fileName);
+
+                Console.WriteLine($"Finish to deserialize xml file {fileName}");
+                Console.WriteLine(new string('-', 200));
+
+                #endregion
+
+                #region Save Offers to DB by Stored Procedure
+
+                Console.WriteLine("Start to insert data of offers to DB by stored procedure...");
+
+                operationDB.SaveOffersToDbBySP(offers);
+
+                Console.WriteLine("Finish to insert data of offers to DB by stored procedure");
+                Console.WriteLine(new string('-', 200));
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Program stoped by error: {ex.Message}");
+            }
 
             Console.WriteLine("Press enter to close...");
             Console.ReadLine();

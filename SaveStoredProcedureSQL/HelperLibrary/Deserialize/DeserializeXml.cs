@@ -16,8 +16,6 @@ namespace HelperLibrary
 
             using (var xmlTextReader = new XmlTextReader(fileName))
             {
-                //xmlTextReader.WhitespaceHandling = WhitespaceHandling.None;
-
                 if (xmlTextReader.ReadToDescendant("offers"))
                 {
                     var xmlSerialize = new XmlSerializer(typeof(Offers));
