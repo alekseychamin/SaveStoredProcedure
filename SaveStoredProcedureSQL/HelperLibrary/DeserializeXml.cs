@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace HelperLibrary
 {
-    public class DeserializeOffer
+    public class DeserializeXml
     {
         public static Offers DeserializeFormXml(string fileName)
         {
@@ -16,7 +16,7 @@ namespace HelperLibrary
 
             using (var xmlTextReader = new XmlTextReader(fileName))
             {
-                xmlTextReader.WhitespaceHandling = WhitespaceHandling.None;
+                //xmlTextReader.WhitespaceHandling = WhitespaceHandling.None;
 
                 if (xmlTextReader.ReadToDescendant("offers"))
                 {
